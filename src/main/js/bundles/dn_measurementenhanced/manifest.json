@@ -1,0 +1,246 @@
+{
+  "Bundle-SymbolicName": "dn_measurementenhanced",
+  "Bundle-Version": "1.0.0-SNAPSHOT",
+  "Bundle-Name": "${bundleName}",
+  "Bundle-Description": "${bundleDescription}",
+  "Bundle-Vendor": "con terra GmbH",
+  "Bundle-Category": [],
+  "Product-Name": "devnet-mapapps-measurement-enhanced",
+  "Require-Bundle": [
+    {
+      "name": "map",
+      "version": "^3.2.0"
+    },
+    {
+      "name": "measurement",
+      "version": "^3.2.0"
+    }
+  ],
+  "layout-widgets": [
+    {
+      "widgetRole": "extendedMeasurementToolbar",
+      "window": {
+        "title": "${window.title}",
+        "dockTool": "extendedMeasurementTool",
+        "marginBox": {
+          "w": 370,
+          "h": 165
+        },
+        "windowClass": "ctToolPopup"
+      }
+    }
+  ],
+  "Components": [
+    {
+      "name": "MeasurementFactory",
+      "provides": [
+        "dijit.Widget",
+        "dn_measurementenhanced.MeasurementToolbar"
+      ],
+      "instanceFactory": true,
+      "properties": {
+        "widgetRole": "extendedMeasurementToolbar",
+        "showTools": [
+          "area",
+          "distance",
+          "location",
+          "angle"
+        ],
+        "defaultTool": "area",
+        "defaultAreaUnit": "HECTARES",
+        "defaultLengthUnit": "KILOMETERS",
+        "defaultLocationUnit": "DECIMAL_DEGREES",
+        "defaultAngleUnit": "DEGREES",
+        "finishWithButton": true,
+        "geometryServiceURL": "@@geometry.service.url@@",
+        "_symbolTable": {
+          "point": {
+            "url": "resource('images/flag.png')",
+            "width": 24,
+            // Although the icon's actual size is 27x30 we have to specify smaller dimensions here to force the icon to display at the correct size. The unit is not px but pt.
+            "height": 24,
+            "xoffset": 9,
+            "yoffset": 11,
+            "type": "esriPMS"
+          },
+          "polyline": {
+            "color": [
+              0,
+              128,
+              255,
+              255
+            ],
+            "width": 3,
+            "type": "esriSLS",
+            "style": "esriSLSSolid"
+          },
+          "polygon": {
+            "color": [
+              0,
+              128,
+              255,
+              255
+            ],
+            "width": 3,
+            "type": "esriSLS",
+            "style": "esriSLSSolid"
+          }
+        },
+        "resultTextSymbol": {
+          "type": "esriTS",
+          "verticalAlignment": "middle",
+          "horizontalAlignment": "center",
+          "color": [
+            255,
+            0,
+            0
+          ],
+          "font": {
+            "family": "Arial",
+            "size": 15,
+            "weight": "bold"
+          },
+          "angle": 0,
+          "xoffset": 0,
+          "yoffset": 0
+        },
+        "areaTextSymbol": {
+          "type": "esriTS",
+          "verticalAlignment": "middle",
+          "horizontalAlignment": "center",
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "font": {
+            "family": "Arial",
+            "size": 15,
+            "weight": "bold"
+          },
+          "angle": 0,
+          "xoffset": 0,
+          "yoffset": 0
+        },
+        "distanceLinesegmentTextSymbol": {
+          "type": "esriTS",
+          "verticalAlignment": "middle",
+          "horizontalAlignment": "center",
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "font": {
+            "family": "Arial",
+            "size": 9,
+            "weight": "bold"
+          },
+          "angle": 0,
+          "xoffset": 0,
+          "yoffset": 0
+        }
+      },
+      "references": [
+        {
+          "name": "_esriMap",
+          "providing": "esri.Map"
+        },
+        {
+          "name": "_geometryService",
+          "providing": "geometryservice.GeometryService",
+          "cardinality": "0..1"
+        },
+        {
+          "name": "_mapState",
+          "providing": "ct.mapping.map.MapState",
+          "cardinality": "1..1"
+        },
+        {
+          "name": "_mapModel",
+          "providing": "ct.mapping.map.MapModel"
+        },
+        {
+          "name": "_coordinateTransformer",
+          "providing": "ct.api.coordinatetransformer.CoordinateTransformer",
+          "cardinality": "0..1"
+        },
+        {
+          "name": "_esriMapReference",
+          "providing": "ct.mapping.map.EsriMapReference"
+        }
+      ]
+    },
+    {
+      "name": "ExtendedMeasurementTool",
+      "impl": "ct/tools/Tool",
+      "provides": [
+        "ct.tools.Tool"
+      ],
+      "propertiesConstructor": true,
+      "properties": {
+        "toolRole": "toolset",
+        "id": "extendedMeasurementTool",
+        "title": "${tool.title}",
+        "iconClass": "icon-ruler",
+        "togglable": true,
+        "priority": 1,
+        "noGroup": true
+      },
+      "references": []
+    },
+    {
+      "name": "ContentViewerWatcher",
+      "properties": {
+      },
+      "references": [
+        {
+          "name": "showGraphicContent",
+          "providing": "ct.contentviewer.ShowGraphicContent"
+        },
+        {
+          "name": "contentViewer",
+          "providing": "ct.contentviewer.ContentViewer"
+        },
+        {
+          "name": "measureWidget",
+          "providing": "dn_measurementenhanced.MeasurementToolbar"
+        }
+      ]
+    },
+    {
+      "name": "Identify",
+      "provides": "ct.framework.api.EventHandler",
+      "properties": {
+        "Event-Topics": [
+          {
+            "topic": "ct/tool/ACTIVATE/graphicinfotool",
+            "method": "enable"
+          },
+          {
+            "topic": "ct/tool/DEACTIVATE/graphicinfotool",
+            "method": "disable"
+          }
+        ]
+      },
+      "references": [
+        {
+          "name": "mapState",
+          "providing": "ct.mapping.map.MapState",
+          "cardinality": "0..1",
+          "connect": {
+            "onClick": "identify"
+          }
+        },
+        {
+          "name": "featureinfoController",
+          "providing": "featureinfo.FeatureInfoController"
+        },
+        {
+          "name": "measureWidget",
+          "providing": "dn_measurementenhanced.MeasurementToolbar"
+        }
+      ]
+    }
+  ]
+}

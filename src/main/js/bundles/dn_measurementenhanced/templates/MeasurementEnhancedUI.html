@@ -1,0 +1,62 @@
+<div class="esriMeasurement">
+    <div data-dojo-type='dijit/layout/ContentPane' class='esriMeasurementButtonContainer'>
+        <div data-dojo-type='dijit/form/ToggleButton' data-dojo-attach-point='_areaButton'
+             data-dojo-props='iconClass:"areaIcon", showLabel:false'
+             data-dojo-attach-event='onClick:_areaButtonToggle'></div>
+        <div data-dojo-type='dijit/form/ToggleButton' data-dojo-attach-point='_distanceButton'
+             data-dojo-props='iconClass:"distanceIcon", showLabel:false'
+             data-dojo-attach-event='onClick:_distanceButtonToggle'></div>
+        <div data-dojo-type='dijit/form/ToggleButton' data-dojo-attach-point='_locationButton'
+             data-dojo-props='iconClass:"locationIcon", showLabel:false'
+             data-dojo-attach-event='onClick:_locationButtonToggle'></div>
+        <div data-dojo-type='dijit/form/ToggleButton' data-dojo-attach-point='_angleButton'
+             data-dojo-props='iconClass:"icon-shape-edit-vertices", showLabel:false, title:"${i18n.widget.defaultTool.angle}"'
+             data-dojo-attach-event='onClick:angleToggleButton'></div>
+
+        <div class="esriMeasurementSeparator">|</div>
+
+        <button data-dojo-type='dijit/form/DropDownButton' data-dojo-attach-point='_unitDropDown'
+                data-dojo-props="label:'unit', value:'unit'" style='visibility:hidden;'></button>
+        <span data-dojo-attach-point='_unitDropDownAngle'></span>
+        <div data-dojo-attach-point="_azimuthNode" class="dijitHidden" style="display:inline-block;">
+            <label>${i18n.ui.labelAzimut}</label>
+            <div data-dojo-attach-point="azimuthCheckbox" data-dojo-type="dijit/form/CheckBox"
+                 data-dojo-props="checked:true"></div>
+        </div>
+
+    </div>
+    <div data-dojo-type='dijit/layout/ContentPane' data-dojo-attach-point='resultLabel'
+         class='resultLabel esriMeasurementResultLabel'></div>
+    <div data-dojo-type='dijit/layout/ContentPane' data-dojo-attach-point='resultValueContainer' align='leading'
+         class="esriMeasurementResultValue">
+        <div data-dojo-attach-point='greenPinDiv'></div>
+        <div data-dojo-type='dijit/layout/ContentPane' data-dojo-attach-point='resultValue' class='result'>&nbsp;</div>
+    </div>
+    <div data-dojo-type='dijit/layout/ContentPane' data-dojo-attach-point='resultTable' align='leading'
+         class="resultTable esriMeasurementTableContainer" style="display:none;">
+        <table class="esriMeasurementResultTable">
+            <tr>
+                <td class="esriMeasurementTableHeader" colspan="2">${_NLS_Lon}</td>
+                <td class="esriMeasurementTableHeader">${_NLS_Lat}</td>
+            </tr>
+            <tr class="esriMeasurementTableRow">
+                <td data-dojo-attach-point="mouseCell"></td>
+                <td class="esriMeasurementTableCell">
+                    <span data-dojo-attach-point="mouseLongitude" dir='ltr'></span>
+                </td>
+                <td class="esriMeasurementTableCell">
+                    <span data-dojo-attach-point="mouseLatitude" dir='ltr'></span>
+                </td>
+            </tr>
+            <tr class="esriMeasurementTableRow">
+                <td data-dojo-attach-point="pinCell"></td>
+                <td class="esriMeasurementTableCell">
+                    <span data-dojo-attach-point="markerLongitude" dir='ltr'></span>
+                </td>
+                <td class="esriMeasurementTableCell">
+                    <span data-dojo-attach-point="markerLatitude" dir='ltr'></span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

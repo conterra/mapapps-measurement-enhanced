@@ -1,0 +1,242 @@
+{
+  "properties": {
+    "amdPackages": "apprt@^3.2.0",
+    "title": "Measurement Enhanced Sample"
+  },
+  "load": {
+    "bundleLocations": [
+      "localbundles",
+      "bundles"
+    ],
+    "allowedBundles": [
+      "system@^3.2.0",
+      "splashscreen@^3.2.0",
+      "map@^3.2.0",
+      "themes@^3.2.0",
+      "templates@^3.2.0",
+      "templatelayout@^3.2.0",
+      "windowmanager@^3.2.0",
+      "toolset@^3.2.0",
+      "toolrules@^3.2.0",
+      "basemaptoggler@^3.2.0",
+      "console@^3.2.0",
+      "agsprinting@^3.2.0",
+      "banner@^3.2.0",
+      "custominfo@^3.2.0",
+      "dn_measurementenhanced"
+    ],
+    "skipBundles": []
+  },
+  "bundles": {
+    "dn_measurementenhanced": {
+      "MeasurementFactory": {
+        "showTools": [
+          "area",
+          "distance",
+          "location",
+          "angle"
+        ],
+        "defaultTool": "area",
+        "defaultAreaUnit": "HECTARES",
+        "defaultLengthUnit": "KILOMETERS",
+        "defaultLocationUnit": "DECIMAL_DEGREES",
+        "defaultAngleUnit": "DEGREES",
+        "finishWithButton": true
+      }
+    },
+    "featureinfo": {
+      "Identify": {
+        "componentEnabled": false
+      }
+    },
+    "agsprinting": {
+      "PrintController": {
+        "url": "https://services.conterra.de/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+      }
+    },
+    "banner": {
+      "BannerWidget": {
+        "label": "Developer Network",
+        "image": "https://www.conterra.de/~/media/conterra/images/site_logos/conterra-logo.ashx",
+        "imagePosition": "above",
+        "link": "http://developernetwork.conterra.de"
+      }
+    },
+    "custominfo": {
+      "CustomInfoToggleTool": [
+        {
+          "id": "customInfoTool",
+          "activateOnStartup": true,
+          "title": "Information",
+          "tooltip": "Information",
+          "iconClass": "icon-custom-info-info",
+          "toolClass": "ctInfo",
+          "togglable": true,
+          "widgetSettings": {
+            "content": "This app shows the functionality of the Measurement Enhanced Bundle that extends the measurement bundle.",
+            "window": {
+              "title": "Information",
+              "marginBox": {
+                "w": 300,
+                "h": 100,
+                "l": 20,
+                "b": 70
+              },
+              "draggable": true,
+              "closable": true,
+              "modal": false,
+              "maximizable": false,
+              "resizable": false
+            }
+          }
+        }
+      ]
+    },
+    "toolset": {
+      "ToolsetManager": {
+        "toolsets": [
+          {
+            "id": "toolset_1450282105829",
+            "title": "Werkzeuge",
+            "container": "map",
+            "window": {
+              "closable": true
+            },
+            "tooltip": "Werkzeuge",
+            "__isDirty": true,
+            "cssClass": "notitle",
+            "windowType": "fixed",
+            "position": {
+              "rel_l": 20,
+              "rel_t": 80
+            },
+            "tools": [
+              "extendedMeasurementTool",
+              "agsprinttool"
+            ]
+          }
+        ]
+      },
+      "enabled": true
+    },
+    "templates": {
+      "TemplateSelector": {
+        "componentEnabled": false
+      },
+      "TemplateModel": {
+        "_selectedTemplate": "seasons",
+        "_templates": [
+          {
+            "name": "seasons",
+            "widgets": [
+              {
+                "widgetRole": "extendedMeasurementToolbar",
+                "window": {
+                  "marginBox": {
+                    "t": 180,
+                    "l": 20,
+                    "w": 370,
+                    "h": 165
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "map": {
+      "MapState": {
+        "initialExtent": {
+          "xmin": -1100000,
+          "ymin": 4000000,
+          "xmax": 3500000,
+          "ymax": 8800000,
+          "spatialReference": {
+            "wkid": 3857
+          }
+        }
+      },
+      "MapModelFactory": {
+        "_configData": {
+          "maps": [
+            {
+              "id": "default",
+              "glass_pane": [],
+              "operationalLayer": [
+                {
+                  "title": "Standorte",
+                  "enabled": true,
+                  "service": "standorte",
+                  "category": {
+                    "title": "Standorte",
+                    "description": "",
+                    "imgUrl": ""
+                  },
+                  "layers": [
+                    "*"
+                  ],
+                  "id": "standorte0",
+                  "options": {}
+                }
+              ],
+              "baseLayer": [
+                {
+                  "title": "Streets",
+                  "service": "streets",
+                  "enabled": false
+                },
+                {
+                  "title": "Topo",
+                  "service": "worldTopo",
+                  "enabled": false
+                },
+                {
+                  "title": "Dark Canvas",
+                  "service": "darkcanvas",
+                  "enabled": true
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "MappingResourceRegistryFactory": {
+        "_knownServices": {
+          "services": [
+            {
+              "id": "worldTopo",
+              "type": "AGS_TILED",
+              "url": "http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer"
+            },
+            {
+              "id": "streets",
+              "type": "AGS_TILED",
+              "url": "http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"
+            },
+            {
+              "id": "darkcanvas",
+              "type": "AGS_TILED",
+              "url": "http://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer"
+            },
+            {
+              "id": "standorte",
+              "url": "https://services.conterra.de/arcgis/rest/services/common/standorte/FeatureServer",
+              "type": "AGS_FEATURE",
+              "title": "Standorte",
+              "description": "",
+              "layers": [
+                {
+                  "id": "0",
+                  "title": "Standorte",
+                  "enabled": true
+                }
+              ],
+              "options": {}
+            }
+          ]
+        }
+      }
+    }
+  }
+}
