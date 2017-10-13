@@ -20,7 +20,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.conterra.devnet</groupId>
-    <artifactId>mapapps-remote-project-blueprint</artifactId>
+    <artifactId>mapapps-measurement-enhanced</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <!-- DISABLE repositories and pluginRepositories if inside the con terra! -->
@@ -491,10 +491,9 @@
         </plugins>
     </build>
     <scm>
-        <connection>scm:git:https://github.com/conterra/mapapps-remote-project-blueprint.git</connection>
-        <developerConnection>scm:git:https://github.com/conterra/mapapps-remote-project-blueprint.git
-        </developerConnection>
-        <url>https://github.com/conterra/mapapps-remote-project-blueprint</url>
+        <connection>scm:git:https://github.com/conterra/mapapps-measurement-enhanced.git</connection>
+        <developerConnection>scm:git:https://github.com/conterra/mapapps-measurement-enhanced.git        </developerConnection>
+        <url>https://github.com/conterra/mapapps-measurement-enhanced</url>
         <tag>HEAD</tag>
     </scm>
     <distributionManagement>
