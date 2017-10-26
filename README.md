@@ -1,5 +1,10 @@
 # Measurement Enhanced Bundle
-The Measurement Enhanced Bundle extends the Measurement Bundle by further capabilities.
+The Measurement Enhanced Bundle extends the Measurement Bundle by further capabilities. It now allows you to measure angles either between one 
+position and the Azimuth or two positions.
+
+![alt text](https://github.com/conterra/mapapps-measurement-enhanced/blob/master/Azimuth.JPG)
+
+![alt text](https://github.com/conterra/mapapps-measurement-enhanced/blob/master/freeAngle.JPG)
 
 Sample App
 ------------------
