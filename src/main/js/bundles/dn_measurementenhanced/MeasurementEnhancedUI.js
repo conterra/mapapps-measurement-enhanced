@@ -266,7 +266,7 @@ define([
 
                     //Reset measurement functions
                     this.hideDrawing();
-                    connect.disconnect(this._clickMapHandler); //this._clickMapHandler.disconnect();
+                    connect.disconnect(this._clickMapHandler);
                 },
 
                 _measureAngleMouseClickHandler: function (e) {
@@ -609,30 +609,50 @@ define([
                     if (this._renderer) {
                         this._renderer.clear();
                     }
+                    if (this._clickMapHandler) {
+                        connect.disconnect(this._clickMapHandler);
+                    }
+                    if (this.activeTool === "distance") {
+                        this._clickMapHandler = connect.connect(this._map, "onClick", this, "_renderDistanceText");
+                    }
                     this._conterra.currentlyMeasuring = this.activeTool;
                     this.inherited(arguments);
                 },
+
                 /**
                  * Override super class method
                  */
                 onMeasure: function (activeTool, userGeometry, result, unit) {
                     // for polyline measurements
                     if (activeTool === "distance") {
-                        // we need our own input point list, because the ESRI widgets resets it before onMeasureEnd
-                        this._conterra._inputPoints = this._inputPoints;
-                        var lastSegmentDistance = result - this._conterra._previousResult;
-                        // create the point between the userGeometry and the last click point
-                        var line = new Polyline(userGeometry.spatialReference);
-                        var lastClickPoint = this._inputPoints[this._inputPoints.length - 2];
-                        line.addPath([userGeometry, lastClickPoint]);
-                        var textSymbolPoint = line.getExtent().getCenter();
-                        // round
-                        var r = d_number.format(lastSegmentDistance.toFixed(2), {pattern: this.numberPattern});
-                        this._drawMeasureResultAsText(activeTool, textSymbolPoint, r, unit, this.distanceLinesegmentTextSymbol, false);
-                        this._conterra._previousResult = result;
+                        this.userGeometry = userGeometry;
+                        this.unit = unit;
+                        this.sectionResult = result;
                     }
                     this.inherited(arguments);
                 },
+
+                _renderDistanceText: function () {
+                    // we need our own input point list, because the ESRI widgets resets it before onMeasureEnd
+                    this._conterra._inputPoints = this._inputPoints;
+                    var lastSegmentDistance = this.sectionResult - this._conterra._previousResult;
+
+                    // create the point between the userGeometry and the last click point
+                    var line = new Polyline(this.userGeometry.spatialReference);
+                    var lastClickPoint = this._inputPoints[this._inputPoints.length - 2];
+                    if (!lastClickPoint) {
+                        return;
+                    }
+                    line.addPath([this.userGeometry, lastClickPoint]);
+                    var textSymbolPoint = line.getExtent().getCenter();
+                    // round
+                    var r = d_number.format(lastSegmentDistance.toFixed(2), {pattern: this.numberPattern});
+                    //this._drawMeasureResultAsText(activeTool, textSymbolPoint, r, unit, this.distanceLinesegmentTextSymbol, false);
+                    this._conterra._previousResult = this.sectionResult;
+
+                    this._drawMeasureResultAsText(this.activeTool, textSymbolPoint, r, this.unit, this.distanceLinesegmentTextSymbol, false);
+                },
+
                 /**
                  * Override super class method
                  */
@@ -642,11 +662,12 @@ define([
                     if (activeTool !== "location" && result.toFixed && this.numberPattern) {
                         r = d_number.format(result.toFixed(2), {pattern: this.numberPattern});
                     }
-                    // we want to remove the last text graphic after unit selectbox change, but not on normal measure end envents
+                    // we want to remove the last text graphic after unit selectbox change, but not on normal measure end events
                     var clearAll = (activeTool === "distance" && this._conterra._measureEndAfterUnitChange) ? true : false;
                     var clearLast = (activeTool === "distance") ? false : !clearAll;
                     // special case: when ending distance measurements and only one line was drawn, remove the segment graphic (last)
                     if (activeTool === "distance" && this._conterra._inputPoints.length === 2) {
+                        this._drawMeasureResultAsText(activeTool, textSymbolPoint, r, unit, this.distanceLinesegmentTextSymbol, false);
                         clearLast = true;
                     }
                     var textSymbol = (activeTool === "area") ? this.areaTextSymbol : this.resultTextSymbol;
@@ -701,7 +722,7 @@ define([
                 destroy: function () {
                     this.hideDrawing();
                     this._removeMeasureTextGraphics();
-                    connect.disconnect(this._clickMapHandler); //this._clickMapHandler.disconnect();
+                    connect.disconnect(this._clickMapHandler);
                     this._renderer.detachNode(); // clears the node
                     this._renderer = null;
                     this._mapModel.fireModelStructureChanged({// redraw the map

@@ -19,6 +19,7 @@
   "layout-widgets": [
     {
       "widgetRole": "extendedMeasurementToolbar",
+      "minimizeOnClose": true,
       "window": {
         "title": "${window.title}",
         "dockTool": "extendedMeasurementTool",
