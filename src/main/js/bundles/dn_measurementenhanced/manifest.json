@@ -1,5 +1,5 @@
 {
-  "Bundle-SymbolicName": "dn_measurementenhanced2",
+  "Bundle-SymbolicName": "dn_measurementenhanced",
   "Bundle-Version": "1.0.3-SNAPSHOT",
   "Bundle-Name": "${bundleName}",
   "Bundle-Description": "${bundleDescription}",
