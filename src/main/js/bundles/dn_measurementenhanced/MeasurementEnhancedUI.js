@@ -26,6 +26,7 @@ define([
         "esri/geometry/Point",
         "esri/geometry/Polyline",
         "esri/dijit/Measurement",
+        "esri/geometry/screenUtils",
         "dijit/form/Button",
         "dijit/form/DropDownButton",
         "measurement/MeasurementUI",
@@ -42,12 +43,13 @@ define([
         "dojo/number"
     ],
     function (require, declare, connect, d_array, domStyle, domClass, SymbolTableLookupStrategy, GraphicsRenderer, MathUtils,
-              Point, Polyline, esri_Measurement, Button, DropDownButton, Measurement, DropDownMenu, MenuItem, templateString,
+              Point, Polyline, esri_Measurement, esri_screenUtils, Button, DropDownButton, Measurement, DropDownMenu, MenuItem, templateString,
               SpatialReference, geometry, TextSymbol, screenUtils, ScreenPoint, Checkbox, Graphic, d_number) {
 
         return declare([Measurement],
             {
                 coordinates: [],
+                unitchange: null,
 
                 constructor: function () {
                     this._conterra = {
@@ -633,6 +635,9 @@ define([
                 },
 
                 _renderDistanceText: function () {
+                    if(this.unitchange){
+                        this.onMeasure();
+                    }
                     // we need our own input point list, because the ESRI widgets resets it before onMeasureEnd
                     this._conterra._inputPoints = this._inputPoints;
                     var lastSegmentDistance = this.sectionResult - this._conterra._previousResult;
@@ -679,6 +684,7 @@ define([
                 },
 
                 onUnitChange: function (unit, activeTool) {
+                    this.unitchange =true;
                     if (this._measureGraphic !== null) {
                         this._conterra._measureEndAfterUnitChange = true;
                     }
@@ -692,9 +698,10 @@ define([
                     if (clearLast) {
                         this._removeMeasureTextGraphics(true);
                     }
+                    var map = this.map;
 
                     var point = userGeometry.getExtent().getCenter();
-                    point = this._coordinateTransformer.transform(point, 3857);
+                    point = esri_screenUtils.toScreenGeometry(map.extent, map.width, map.height, point);
 
                     var resultStringWithUnit = result + " " + unit;
                     var textSymbolConstrArgs = resultStringWithUnit;
@@ -712,7 +719,7 @@ define([
 //                        point = this._calcGeoPointForPixelDistance(point, 0, 10000);
 //                    } else {
                     // make sure map coords are used
-                    point = this._coordinateTransformer.transform(point, ref.wkid);
+                    point = esri_screenUtils.toMapGeometry(map.extent, map.width, map.height, point); //this._coordinateTransformer.transform(point, ref.wkid);
 //                    }
                     var g = new Graphic(point, tSymbol);
                     this._conterra._measureResultTextGraphics.push(g);

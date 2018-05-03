@@ -1,6 +1,6 @@
 {
-  "Bundle-SymbolicName": "dn_measurementenhanced",
-  "Bundle-Version": "1.0.2-SNAPSHOT",
+  "Bundle-SymbolicName": "dn_measurementenhanced2",
+  "Bundle-Version": "1.0.3-SNAPSHOT",
   "Bundle-Name": "${bundleName}",
   "Bundle-Description": "${bundleDescription}",
   "Bundle-Vendor": "con terra GmbH",
@@ -27,6 +27,9 @@
           "w": 370,
           "h": 165
         },
+        "dockable": true,
+        "dockingBar": "dockingBarRight",
+        "closable": false,
         "windowClass": "ctToolPopup"
       }
     }
