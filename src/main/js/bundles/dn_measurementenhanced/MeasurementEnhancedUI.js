@@ -635,7 +635,7 @@ define([
                 },
 
                 _renderDistanceText: function () {
-                    if(this.unitchange){
+                    if (this.unitchange) {
                         this.onMeasure();
                     }
                     // we need our own input point list, because the ESRI widgets resets it before onMeasureEnd
@@ -671,12 +671,13 @@ define([
                     var clearAll = (activeTool === "distance" && this._conterra._measureEndAfterUnitChange) ? true : false;
                     var clearLast = (activeTool === "distance") ? false : !clearAll;
                     // special case: when ending distance measurements and only one line was drawn, remove the segment graphic (last)
-                    if (activeTool === "distance" && this._conterra._inputPoints.length === 2) {
-                        this._drawMeasureResultAsText(activeTool, textSymbolPoint, r, unit, this.distanceLinesegmentTextSymbol, false);
-                        clearLast = true;
-                    }
                     var textSymbol = (activeTool === "area") ? this.areaTextSymbol : this.resultTextSymbol;
+                    if (activeTool === "distance" && this._conterra._inputPoints.length === 2) {
+                        clearLast = true;
+
+                    }
                     this._drawMeasureResultAsText(activeTool, userGeometry, r, unit, textSymbol, clearAll, clearLast);
+
                     this._conterra._inputPoints = [];
                     this._conterra._measureEndAfterUnitChange = false;
                     this._conterra._previousResult = 0;
@@ -684,7 +685,7 @@ define([
                 },
 
                 onUnitChange: function (unit, activeTool) {
-                    this.unitchange =true;
+                    this.unitchange = true;
                     if (this._measureGraphic !== null) {
                         this._conterra._measureEndAfterUnitChange = true;
                     }
