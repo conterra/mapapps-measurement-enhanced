@@ -299,10 +299,10 @@ define([
                         this._renderer.draw({
                             geometry: line
                         });
-                        // when azimuth angle measurement: 
+                        // when azimuth angle measurement:
                         if (isAzumuth) {
                             var coord0 = this.coordinates[0];
-                            // add the northern point 
+                            // add the northern point
                             var pNew = geometry.createPoint(coord0.x, coord0.y + 100, ref);
                             this.coordinates.push(pNew);
                             var lengthUserLine = MathUtils.getLength(coord0, this.coordinates[1]);
@@ -559,8 +559,22 @@ define([
                     return resultPoint;
                 },
 
+                activateMeasurement: function() {
+                    if (this._started) {
+                        var def = this.defaultTool;
+                        def && this.setTool(def, true);
+                    } else {
+                        this._activateOnStartup = true;
+                    }
+                },
+
                 deactivateMeasurement: function () {
-                    this.inherited(arguments);
+                    this.clearResult();
+                    var activeTool = this.activeTool;
+                    if (activeTool) {
+                        this.setTool(activeTool, false);
+                    }
+                    delete this.activeTool;
                 },
 
                 setResult: function (result) {
@@ -727,6 +741,8 @@ define([
                     this._esriMapReference.esriMap.graphics.add(g);
                 },
 
+
+
                 destroy: function () {
                     this.hideDrawing();
                     this._removeMeasureTextGraphics();
@@ -746,10 +762,10 @@ define([
 //                    var srs = ref.wkid;
 //                    if(e){
 //                        var f = {
-//                            coordinates: [[mapPointX, mapPointY]], 
-//                            sr: {wkid: 4326}, 
+//                            coordinates: [[mapPointX, mapPointY]],
+//                            sr: {wkid: 4326},
 //                            conversionType: this._unitStrings[this.currentLocationUnit]
-//                        }; 
+//                        };
 //                        this._updateGeocoordinateStringLocation(mouseClicked, mapPoint.geometry);
 //                    } else {
 //                        var pointInMapSrs = this._coordinateTransformer.transform(mapPoint, srs);
@@ -759,7 +775,7 @@ define([
 //                            this.onMeasureEnd(this.activeTool, pointInMapSrs, [xyStringRounded[0], xyStringRounded[1]], this.getUnit());
 //                        } else {
 //                            this._updateMouseLocation(xyStringRounded[0], xyStringRounded[1]);
-//                        } 
+//                        }
 //                    }
 //                }
 

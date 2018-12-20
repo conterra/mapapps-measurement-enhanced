@@ -19,7 +19,7 @@
   "layout-widgets": [
     {
       "widgetRole": "extendedMeasurementToolbar",
-      "minimizeOnClose": true,
+
       "window": {
         "title": "${window.title}",
         "dockTool": "extendedMeasurementTool",
@@ -29,7 +29,10 @@
         },
         "dockable": true,
         "dockingBar": "dockingBarRight",
-        "closable": false,
+        "closable": true,
+        "minimizeOnClose": true,
+        "resizable": true,
+        "toggable": true,
         "windowClass": "ctToolPopup"
       }
     }
@@ -189,9 +192,14 @@
         "iconClass": "icon-ruler",
         "togglable": true,
         "priority": 1,
-        "noGroup": true
+        "noGroup": true,
+        "activateHandler" : "activateMeasurement",
+        "deactivateHandler": "deactivateMeasurement"
       },
-      "references": []
+      "references": [{
+        "name": "handlerScope",
+        "providing": "dn_measurementenhanced.MeasurementToolbar"
+      }]
     },
     {
       "name": "ContentViewerWatcher",
