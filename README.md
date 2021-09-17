@@ -6,10 +6,6 @@ position and the Azimuth or three positions.
 
 ![alt text](https://github.com/conterra/mapapps-measurement-enhanced/blob/master/freeAngle.JPG)
 
-Sample App
-------------------
-https://demos.conterra.de/mapapps/resources/apps/downloads_measurement_enhanced/index.html
-
 Installation Guide
 ------------------
 **Requirement: map.apps 3.2.0**
